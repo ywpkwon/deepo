@@ -19,7 +19,7 @@
 # cntk          latest (pip)
 # ==================================================================
 
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu18.04
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
     GIT_CLONE="git clone --depth 10" && \
@@ -168,7 +168,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         && \
 
     $PIP_INSTALL \
-        mxnet-cu100 \
+        mxnet-cu90 \
         graphviz \
         && \
 
@@ -200,16 +200,16 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         && \
     $PIP_INSTALL \
         torch_nightly -f \
-        https://download.pytorch.org/whl/nightly/cu100/torch_nightly.html \
+        https://download.pytorch.org/whl/nightly/cu90/torch_nightly.html \
         && \
 
 # ==================================================================
 # tensorflow
 # ------------------------------------------------------------------
 
-    $PIP_INSTALL \
-        tf-nightly-gpu-2.0-preview \
-        && \
+        $PIP_INSTALL \
+            tensorflow-gpu==1.12 \
+            && \
 
 # ==================================================================
 # theano

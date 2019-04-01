@@ -2,11 +2,10 @@
 # module list
 # ------------------------------------------------------------------
 # python        3.6    (apt)
-# tensorflow    latest (pip)
-# sonnet        latest (pip)
+# pytorch       latest (pip)
 # ==================================================================
 
-FROM ubuntu:18.04
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu18.04
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
     GIT_CLONE="git clone --depth 10" && \
@@ -68,20 +67,21 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         && \
 
 # ==================================================================
-# tensorflow
+# pytorch
 # ------------------------------------------------------------------
 
     $PIP_INSTALL \
-        tf-nightly-2.0-preview \
+        future \
+        numpy \
+        protobuf \
+        enum34 \
+        pyyaml \
+        typing \
+    	torchvision_nightly \
         && \
-
-# ==================================================================
-# sonnet
-# ------------------------------------------------------------------
-
     $PIP_INSTALL \
-        tensorflow_probability \
-        dm-sonnet \
+        torch_nightly -f \
+        https://download.pytorch.org/whl/nightly/cu90/torch_nightly.html \
         && \
 
 # ==================================================================
@@ -92,5 +92,3 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* ~/*
-
-EXPOSE 6006

@@ -2,10 +2,11 @@
 # module list
 # ------------------------------------------------------------------
 # python        3.6    (apt)
-# theano        latest (git)
+# tensorflow    latest (pip)
+# keras         latest (pip)
 # ==================================================================
 
-FROM ubuntu:18.04
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu18.04
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
     GIT_CLONE="git clone --depth 10" && \
@@ -67,15 +68,20 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         && \
 
 # ==================================================================
-# theano
+# tensorflow
 # ------------------------------------------------------------------
 
-    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-        libblas-dev \
-        && \
+        $PIP_INSTALL \
+            tensorflow-gpu==1.12 \
+            && \
+
+# ==================================================================
+# keras
+# ------------------------------------------------------------------
 
     $PIP_INSTALL \
-        https://github.com/Theano/Theano/archive/master.zip \
+        h5py \
+        keras \
         && \
 
 # ==================================================================
@@ -86,3 +92,5 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* ~/*
+
+EXPOSE 6006
