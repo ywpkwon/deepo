@@ -24,7 +24,7 @@ class Python(Module):
             DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
                 python%s \
                 python%s-dev \
-                python3-distutils%s \
+                python3-distutils-extra \
                 && \
             wget -O ~/get-pip.py \
                 https://bootstrap.pypa.io/get-pip.py && \
@@ -37,7 +37,6 @@ class Python(Module):
             ''' % (
                 self.version,
                 self.version,
-                '-extra' if self.composer.ubuntu_ver.startswith('18.') else '',
                 self.version,
                 self.version,
                 self.version,
