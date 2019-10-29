@@ -81,6 +81,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         numba \
         scikit-image \
         pillow \
+        seaborn \
+        psutil \
         && \
 
 # ==================================================================
@@ -106,8 +108,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         typing \
         && \
     $PIP_INSTALL \
-        --pre torch torchvision -f \
-        https://download.pytorch.org/whl/nightly/cu100/torch_nightly.html \
+        torch torchvision \
         && \
 
 # ==================================================================
@@ -151,3 +152,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     rm -rf /var/lib/apt/lists/* /tmp/* ~/*
 
 EXPOSE 6006
+
+ENV NUMBAPRO_CUDA_DRIVER=/usr/lib/x86_64-linux-gnu/libcuda.so
+ENV NUMBAPRO_NVVM=/usr/local/cuda/nvvm/lib64/libnvvm.so
+ENV NUMBAPRO_LIBDEVICE=/usr/local/cuda/nvvm/libdevice
+ENV PYTHONPATH=/workspace
